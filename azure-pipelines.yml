@@ -1,0 +1,56 @@
+trigger:
+  branches:
+    include:
+      - main
+
+variables:
+  azureSubscription: 'Your Azure Subscription Name'
+  acrName: 'myacr123'
+  kubernetesCluster: 'aks-cluster'
+  resourceGroup: 'aks-resource-group'
+
+stages:
+  - stage: Build
+    jobs:
+      - job: BuildImages
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: Docker@2
+            displayName: 'Build backend image'
+            inputs:
+              repository: 'backend'
+              command: 'buildAndPush'
+              Dockerfile: '**/backend/Dockerfile'
+              containerRegistry: '$(acrName)'
+              tags: 'latest'
+
+          - task: Docker@2
+            displayName: 'Build frontend image'
+            inputs:
+              repository: 'frontend'
+              command: 'buildAndPush'
+              Dockerfile: '**/frontend/Dockerfile'
+              containerRegistry: '$(acrName)'
+              tags: 'latest'
+
+  - stage: Deploy
+    dependsOn: Build
+    jobs:
+      - deployment: DeployToAKS
+        environment: 'aks-env'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: Kubernetes@1
+                  displayName: 'Deploy manifests to AKS'
+                  inputs:
+                    connectionType: 'Azure Resource Manager'
+                    azureSubscription: '$(azureSubscription)'
+                    azureResourceGroup: '$(resourceGroup)'
+                    kubernetesCluster: '$(kubernetesCluster)'
+                    namespace: default
+                    command: apply
+                    useConfigurationFile: true
+                    configuration: manifests/
