@@ -115,6 +115,32 @@ https://microsoft.com/devicelogin
 ```
 npm install express --save
 ```
+// testing frontend and backend
+```
+// frontend 
+npm install
+npm start
 
+npm install express cors pg
+
+// backend 
+
+node index.js
+
+psql -U postgres -h localhost -p 5432
+
+\c mydb
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL
+);
+
+INSERT INTO users (name) VALUES ('Atul'), ('Sunita'), ('Tanmay');
+
+http://localhost:5000/
+http://localhost:5000/users
+http://localhost:3000/
+```
 
 
