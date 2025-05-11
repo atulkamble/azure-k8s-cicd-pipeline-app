@@ -202,3 +202,54 @@ Frontend image url: atuljkamble/devopsprojectbackend
 
 Backend Image url: atuljkamble/devopsprojectfrontend
 ```
+// ACR Configuration 
+
+```
+// terraform install and configure 
+
+az login 
+
+paste subscription id to terraform code
+
+terraform init 
+terraform plan 
+terraform apply 
+
+// configure local machine to work with AKS
+az login
+az account set --subscription cc57cd42-dede-4674-b810-a0fbde41504a
+az aks get-credentials --resource-group aks-resource-group --name aks-cluster --overwrite-existing
+
+kubectl get nodes
+kubectl get svc
+kubectl get deployments 
+kubectl get pods
+
+// Container Regestry Setting 
+
+ACR >> create registry 
+
+docker run -it frontend
+docker login atulkamble.azurecr.io
+
+
+
+docker login -u atulkamblerepo -p zDEU2CrlUsyqbgHfg9OiG3AC2tJSD1egco3Yuz4r6W+ACRByqLvu atulkamble.azurecr.io
+
+zDEU2CrlUsyqbgHfg9OiG3AC2tJSD1egco3Yuz4r6W+ACRByqLvu
+
+docker tag frontend atulkamble.azurecr.io/frontend
+docker push atulkamble.azurecr.io/frontend
+docker pull atulkamble.azurecr.io/frontend
+
+docker tag backend atulkamble.azurecr.io/backend
+docker push atulkamble.azurecr.io/backend
+docker pull atulkamble.azurecr.io/backend
+
+atulkamble.azurecr.io/frontend:latest
+atulkamble.azurecr.io/backend:latest
+
+
+
+
+```
