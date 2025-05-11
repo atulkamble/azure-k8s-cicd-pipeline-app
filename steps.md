@@ -143,4 +143,62 @@ http://localhost:5000/users
 http://localhost:3000/
 ```
 
+```
+// 
 
+step 0) install configure postgresql 
+use database, create table 
+
+psql -U postgres -h localhost -p 5432
+
+\c mydb
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL
+);
+
+INSERT INTO users (name) VALUES ('Atul'), ('Sunita'), ('Tanmay');
+
+
+
+step 1)
+
+manually check for front and backend 
+
+cd backend/src >> node index.js | localhost://5000
+database >> localhost://5000/users
+
+cd ..
+cd frontend 
+
+npm install 
+npm start 
+
+http://localhost:3000
+
+// Step 2) 
+
+// create frontend image 
+
+sudo docker build -t atuljkamble/devopsprojectfrontend .
+sudo docker images 
+sudo docker run -d -p 3000:3000 atuljkamble/devopsprojectfrontend
+sudo docker container ls 
+
+// http://localhost:3000 
+
+// create backend image 
+
+sudo docker build -t atuljkamble/devopsprojectbackend .
+sudo docker images 
+sudo docker run -d -p 5000:5000 atuljkamble/devopsprojectbackend
+sudo docker container ls
+ 
+// http://localhost:5000 
+
+
+Frontend image url: atuljkamble/devopsprojectbackend
+
+Backend Image url: atuljkamble/devopsprojectfrontend
+```
