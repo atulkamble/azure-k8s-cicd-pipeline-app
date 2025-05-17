@@ -17,7 +17,7 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-          - task: Docker@1
+          - task: Docker@2
             displayName: 'Build backend image'
             inputs:
               repository: 'backend'
@@ -26,7 +26,7 @@ stages:
               containerRegistry: '$(acrName)'
               tags: 'latest'
 
-          - task: Docker@1
+          - task: Docker@2
             displayName: 'Build frontend image'
             inputs:
               repository: 'frontend'
