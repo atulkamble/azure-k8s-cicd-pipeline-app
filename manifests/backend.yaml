@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: atuljkamble/devopsprojectbackend
+        image: atulkamble.azurecr.io/backend:latest 
         ports:
         - containerPort: 5000
 ---
