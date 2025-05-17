@@ -16,7 +16,7 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-          - task: Docker@0
+          - task: Docker@02
             displayName: 'Build backend image'
             inputs:
               repository: 'backend'
