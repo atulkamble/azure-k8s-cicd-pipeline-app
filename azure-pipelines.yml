@@ -4,7 +4,7 @@ trigger:
       - main
 
 variables:
-  azureSubscription: 'Pay as you go'  # 🔁 Replace with actual service connection name
+  azureSubscription: 'acr'  # 🔁 Replace with actual service connection name
   acrLoginServer: 'atulkamble.azurecr.io'          # 🔁 Replace with actual ACR login server
   kubernetesCluster: 'aks-cluster'
   resourceGroup: 'aks-resource-group'
