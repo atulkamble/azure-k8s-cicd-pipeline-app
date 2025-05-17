@@ -4,11 +4,10 @@ trigger:
       - main
 
 variables:
-  azureSubscription: 'Pay as you go'
-  acrName: 'atulkamble'
+  azureSubscription: 'AzureServiceConnectionName'  # 🔁 Replace with actual service connection name
+  acrLoginServer: 'atulkamble.azurecr.io'          # 🔁 Replace with actual ACR login server
   kubernetesCluster: 'aks-cluster'
   resourceGroup: 'aks-resource-group'
-  
 
 stages:
   - stage: Build
@@ -17,23 +16,47 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         steps:
+          # Build backend image
           - task: Docker@1
             displayName: 'Build backend image'
             inputs:
-              repository: 'backend'
-              command: 'Build an image','Push an image'
-              Dockerfile: '**/backend/dockerfile'
-              containerRegistry: '$(acrName)'
-              tags: 'latest'
+              containerregistrytype: 'Azure Container Registry'
+              azureSubscriptionEndpoint: '$(azureSubscription)'
+              azureContainerRegistry: '$(acrLoginServer)'
+              dockerFile: '**/backend/Dockerfile'
+              imageName: 'backend:latest'
+              command: 'Build an image'
 
+          # Push backend image
+          - task: Docker@1
+            displayName: 'Push backend image'
+            inputs:
+              containerregistrytype: 'Azure Container Registry'
+              azureSubscriptionEndpoint: '$(azureSubscription)'
+              azureContainerRegistry: '$(acrLoginServer)'
+              imageName: 'backend:latest'
+              command: 'Push an image'
+
+          # Build frontend image
           - task: Docker@1
             displayName: 'Build frontend image'
             inputs:
-              repository: 'frontend'
-              command: 'Build an image','Push an image'
-              Dockerfile: '**/frontend/dockerfile'
-              containerRegistry: '$(acrName)'
-              tags: 'latest'
+              containerregistrytype: 'Azure Container Registry'
+              azureSubscriptionEndpoint: '$(azureSubscription)'
+              azureContainerRegistry: '$(acrLoginServer)'
+              dockerFile: '**/frontend/Dockerfile'
+              imageName: 'frontend:latest'
+              command: 'Build an image'
+
+          # Push frontend image
+          - task: Docker@1
+            displayName: 'Push frontend image'
+            inputs:
+              containerregistrytype: 'Azure Container Registry'
+              azureSubscriptionEndpoint: '$(azureSubscription)'
+              azureContainerRegistry: '$(acrLoginServer)'
+              imageName: 'frontend:latest'
+              command: 'Push an image'
 
   - stage: Deploy
     dependsOn: Build
@@ -48,7 +71,6 @@ stages:
                   displayName: 'Deploy manifests to AKS'
                   inputs:
                     connectionType: 'Azure Resource Manager'
-                    azureContainerRegistry: 'acr'
                     azureSubscription: '$(azureSubscription)'
                     azureResourceGroup: '$(resourceGroup)'
                     kubernetesCluster: '$(kubernetesCluster)'
@@ -56,4 +78,3 @@ stages:
                     command: apply
                     useConfigurationFile: true
                     configuration: manifests/
-                    
