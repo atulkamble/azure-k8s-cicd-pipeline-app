@@ -20,8 +20,6 @@ spec:
           image: atuljkamble/devopsprojectbackend:latest
           ports:
             - containerPort: 5000
-      imagePullSecrets:
-        - name: acr-secret
 
 ---
 # Backend Service (ClusterIP)
@@ -60,8 +58,6 @@ spec:
           image: atuljkamble/devopsprojectfrontend:latest
           ports:
             - containerPort: 3000
-      imagePullSecrets:
-        - name: acr-secret
 
 ---
 # Frontend Service (LoadBalancer)
