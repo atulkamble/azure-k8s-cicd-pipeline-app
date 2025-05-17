@@ -21,7 +21,8 @@ stages:
             displayName: 'Build backend image'
             inputs:
               repository: 'backend'
-              command: 'build And Push'
+              command: 'Build an image'
+              'Push an image'
               Dockerfile: '**/backend/dockerfile'
               containerRegistry: '$(acrName)'
               tags: 'latest'
@@ -30,7 +31,8 @@ stages:
             displayName: 'Build frontend image'
             inputs:
               repository: 'frontend'
-              command: 'buildAndPush'
+              command: 'Build an image'
+              'Push an image'
               Dockerfile: '**/frontend/dockerfile'
               containerRegistry: '$(acrName)'
               tags: 'latest'
