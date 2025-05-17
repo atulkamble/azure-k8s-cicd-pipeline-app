@@ -4,8 +4,8 @@ trigger:
       - main
 
 variables:
-  azureSubscription: 'Your Azure Subscription Name'
-  acrName: 'myacr123'
+  azureSubscription: 'cc57cd42-dede-4674-b810-a0fbde41504a'
+  acrName: 'atulkamble'
   kubernetesCluster: 'aks-cluster'
   resourceGroup: 'aks-resource-group'
 
@@ -21,7 +21,7 @@ stages:
             inputs:
               repository: 'backend'
               command: 'buildAndPush'
-              Dockerfile: '**/backend/Dockerfile'
+              Dockerfile: '**/backend/dockerfile'
               containerRegistry: '$(acrName)'
               tags: 'latest'
 
@@ -30,7 +30,7 @@ stages:
             inputs:
               repository: 'frontend'
               command: 'buildAndPush'
-              Dockerfile: '**/frontend/Dockerfile'
+              Dockerfile: '**/frontend/dockerfile'
               containerRegistry: '$(acrName)'
               tags: 'latest'
 
