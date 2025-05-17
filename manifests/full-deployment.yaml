@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: atulkamble.azurecr.io/backend:latest
+          image: atuljkamble/devopsprojectbackend:latest
           ports:
             - containerPort: 5000
       imagePullSecrets:
@@ -57,7 +57,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: atulkamble.azurecr.io/frontend:latest
+          image: atuljkamble/devopsprojectfrontend:latest
           ports:
             - containerPort: 3000
       imagePullSecrets:
