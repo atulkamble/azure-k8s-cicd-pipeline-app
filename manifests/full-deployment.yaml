@@ -20,6 +20,8 @@ spec:
           image: atulkamble.azurecr.io/backend:latest
           ports:
             - containerPort: 5000
+      imagePullSecrets:
+        - name: acr-secret
 
 ---
 # Backend Service (ClusterIP)
@@ -58,9 +60,11 @@ spec:
           image: atulkamble.azurecr.io/frontend:latest
           ports:
             - containerPort: 3000
+      imagePullSecrets:
+        - name: acr-secret
 
 ---
-# Frontend Service (LoadBalancer for Minikube)
+# Frontend Service (LoadBalancer)
 apiVersion: v1
 kind: Service
 metadata:
