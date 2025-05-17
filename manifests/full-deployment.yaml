@@ -20,6 +20,7 @@ spec:
           image: atuljkamble/devopsprojectbackend:latest
           ports:
             - containerPort: 5000
+
 ---
 # Backend Service (ClusterIP)
 apiVersion: v1
@@ -33,6 +34,7 @@ spec:
   ports:
     - port: 5000
       targetPort: 5000
+
 ---
 # Frontend Deployment
 apiVersion: apps/v1
@@ -56,6 +58,7 @@ spec:
           image: atuljkamble/devopsprojectfrontend:latest
           ports:
             - containerPort: 3000
+
 ---
 # Frontend Service (LoadBalancer)
 apiVersion: v1
@@ -67,6 +70,7 @@ spec:
   selector:
     app: frontend
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80
       targetPort: 3000
