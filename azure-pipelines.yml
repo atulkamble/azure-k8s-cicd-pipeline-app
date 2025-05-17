@@ -8,6 +8,7 @@ variables:
   acrName: 'atulkamble'
   kubernetesCluster: 'aks-cluster'
   resourceGroup: 'aks-resource-group'
+  
 
 stages:
   - stage: Build
@@ -47,6 +48,7 @@ stages:
                   displayName: 'Deploy manifests to AKS'
                   inputs:
                     connectionType: 'Azure Resource Manager'
+                    azureContainerRegistry: 'acr'
                     azureSubscription: '$(azureSubscription)'
                     azureResourceGroup: '$(resourceGroup)'
                     kubernetesCluster: '$(kubernetesCluster)'
@@ -54,3 +56,4 @@ stages:
                     command: apply
                     useConfigurationFile: true
                     configuration: manifests/
+                    
