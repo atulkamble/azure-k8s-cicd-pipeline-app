@@ -21,7 +21,7 @@ stages:
             displayName: 'Build backend image'
             inputs:
               containerregistrytype: 'Azure Container Registry'
-              azureSubscriptionEndpoint: '$(azureSubscription)'
+              azureSubscriptionEndpoint: 'acr'
               azureContainerRegistry: '$(acrLoginServer)'
               dockerFile: '**/backend/Dockerfile'
               imageName: 'backend:latest'
@@ -32,7 +32,7 @@ stages:
             displayName: 'Push backend image'
             inputs:
               containerregistrytype: 'Azure Container Registry'
-              azureSubscriptionEndpoint: '$(azureSubscription)'
+              azureSubscriptionEndpoint: 'acr'
               azureContainerRegistry: '$(acrLoginServer)'
               imageName: 'backend:latest'
               command: 'Push an image'
@@ -42,7 +42,7 @@ stages:
             displayName: 'Build frontend image'
             inputs:
               containerregistrytype: 'Azure Container Registry'
-              azureSubscriptionEndpoint: '$(azureSubscription)'
+              azureSubscriptionEndpoint: 'acr'
               azureContainerRegistry: '$(acrLoginServer)'
               dockerFile: '**/frontend/Dockerfile'
               imageName: 'frontend:latest'
@@ -53,7 +53,7 @@ stages:
             displayName: 'Push frontend image'
             inputs:
               containerregistrytype: 'Azure Container Registry'
-              azureSubscriptionEndpoint: '$(azureSubscription)'
+              azureSubscriptionEndpoint: 'acr'
               azureContainerRegistry: '$(acrLoginServer)'
               imageName: 'frontend:latest'
               command: 'Push an image'
