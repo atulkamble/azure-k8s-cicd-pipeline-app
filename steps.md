@@ -249,7 +249,40 @@ docker pull atulkamble.azurecr.io/backend
 atulkamble.azurecr.io/frontend:latest
 atulkamble.azurecr.io/backend:latest
 
+```
+// kubernetes 
+
+```
+
+docker - minikube running 
+minikube start 
+
+git clone https://github.com/atulkamble/azure-k8s-cicd-pipeline-app.git
+cd azure-k8s-cicd-pipeline-app
+kubectl apply -f manifests/full-deployment.yaml
 
 
+atuljkamble/devopsprojectfrontend
+3000 32000
+atuljkamble/devopsprojectbackend
+5000
 
+
+atulkamble.azurecr.io/frontend:latest
+atulkamble.azurecr.io/backend:latest
+
+kubectl apply -f full-deployment.yaml
+minikube service frontend-service
+
+kubectl create secret docker-registry acr-secret \
+  --docker-server=atulkamble.azurecr.io \
+  --docker-username=00000000-0000-0000-0000-000000000000 \
+  --docker-password=7WuV/VTNEEr5Of6SX3vjFblueU7KvDxeqZ0Ql3VWBa+ACRClz8Ay \
+  --docker-email=atul_kamble@hotmail.com
+
+docker login -u token -p 7WuV/VTNEEr5Of6SX3vjFblueU7KvDxeqZ0Ql3VWBa+ACRClz8Ay atulkamble.azurecr.io
+
+
+kubectl delete pods -l app=frontend
+kubectl delete pods -l app=backend
 ```
