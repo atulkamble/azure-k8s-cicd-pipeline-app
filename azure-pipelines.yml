@@ -10,6 +10,7 @@ variables:
   acrPassword: 'N0gZFqEeqZzXS/N7YEv+McXRJVg8U6MQd/EkKSKjwf+ACRBBa0UU'                    # Set this secret in Azure DevOps Pipeline Variables
   kubernetesCluster: 'aks-cluster'
   resourceGroup: 'aks-resource-group'
+  acrServiceConnection: 'atulkamble-acr'
 
 stages:
   - stage: Build
