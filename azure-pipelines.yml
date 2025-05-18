@@ -25,8 +25,8 @@ stages:
               containerRegistry: '$(acrServiceConnection)'   # ✅ Service connection name
               repository: 'frontend'
               dockerfile: 'frontend/Dockerfile'
-              tags: 'latest'
               buildContext: 'frontend'
+              tags: 'latest'
 
           - task: Docker@2
             displayName: Build and Push Backend Image
@@ -35,8 +35,8 @@ stages:
               containerRegistry: '$(acrServiceConnection)'   # ✅ Service connection name
               repository: 'backend'
               dockerfile: 'backend/Dockerfile'
-              tags: 'latest'
               buildContext: 'backend'
+              tags: 'latest'
 
   - stage: Deploy
     displayName: Deploy to AKS
