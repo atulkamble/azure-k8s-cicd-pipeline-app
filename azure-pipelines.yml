@@ -4,77 +4,68 @@ trigger:
       - main
 
 variables:
-  azureSubscription: 'Pay as you go'  # 🔁 Replace with actual service connection name
-  acrLoginServer: 'atulkamble.azurecr.io'          # 🔁 Replace with actual ACR login server
+  azureSubscription: 'Pay as you go'  # 🔁 Replace with your Azure RM service connection
+  acrLoginServer: 'atulkamble.azurecr.io'
+  acrUsername: 'atulkamblerepo'       # 🔁 Optional if using Azure service connection
+  acrPassword: '$(acrPassword)'       # Set as secret variable in pipeline settings
   kubernetesCluster: 'aks-cluster'
   resourceGroup: 'aks-resource-group'
+  containerRegistry: 'atulkamble'
 
 stages:
   - stage: Build
+    displayName: Build and Push Images
     jobs:
-      - job: BuildImages
+      - job: BuildAndPush
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-          # Build backend image
-          - task: Docker@1
-            displayName: 'Build backend image'
+          - task: Docker@2
+            displayName: Build frontend image
             inputs:
-              containerregistrytype: 'Azure Container Registry'
-              azureSubscriptionEndpoint: 'acr'
-              azureContainerRegistry: '$(acrLoginServer)'
-              dockerFile: '**/backend/Dockerfile'
-              imageName: 'backend:latest'
-              command: 'Build an image'
+              containerRegistry: '$(azureSubscription)'
+              repository: 'frontend'
+              command: buildAndPush
+              Dockerfile: 'frontend/Dockerfile'
+              tags: latest
 
-          # Push backend image
-          - task: Docker@1
-            displayName: 'Push backend image'
+          - task: Docker@2
+            displayName: Build backend image
             inputs:
-              containerregistrytype: 'Azure Container Registry'
-              azureSubscriptionEndpoint: 'acr'
-              azureContainerRegistry: '$(acrLoginServer)'
-              imageName: 'backend:latest'
-              command: 'Push an image'
-
-          # Build frontend image
-          - task: Docker@1
-            displayName: 'Build frontend image'
-            inputs:
-              containerregistrytype: 'Azure Container Registry'
-              azureSubscriptionEndpoint: 'acr'
-              azureContainerRegistry: '$(acrLoginServer)'
-              dockerFile: '**/frontend/Dockerfile'
-              imageName: 'frontend:latest'
-              command: 'Build an image'
-
-          # Push frontend image
-          - task: Docker@1
-            displayName: 'Push frontend image'
-            inputs:
-              containerregistrytype: 'Azure Container Registry'
-              azureSubscriptionEndpoint: 'acr'
-              azureContainerRegistry: '$(acrLoginServer)'
-              imageName: 'frontend:latest'
-              command: 'Push an image'
+              containerRegistry: '$(azureSubscription)'
+              repository: 'backend'
+              command: buildAndPush
+              Dockerfile: 'backend/Dockerfile'
+              tags: latest
 
   - stage: Deploy
+    displayName: Deploy to AKS
     dependsOn: Build
     jobs:
       - deployment: DeployToAKS
-        environment: 'aks-env'
+        displayName: Deploy to AKS cluster
+        environment: aks
         strategy:
           runOnce:
             deploy:
               steps:
                 - task: Kubernetes@1
-                  displayName: 'Deploy manifests to AKS'
+                  displayName: Set context for AKS
                   inputs:
                     connectionType: 'Azure Resource Manager'
                     azureSubscription: '$(azureSubscription)'
                     azureResourceGroup: '$(resourceGroup)'
                     kubernetesCluster: '$(kubernetesCluster)'
-                    namespace: default
+                    command: 'login'
+
+                - task: Kubernetes@1
+                  displayName: Deploy manifests
+                  inputs:
+                    connectionType: 'Azure Resource Manager'
+                    azureSubscription: '$(azureSubscription)'
+                    azureResourceGroup: '$(resourceGroup)'
+                    kubernetesCluster: '$(kubernetesCluster)'
+                    namespace: 'default'
                     command: apply
                     useConfigurationFile: true
-                    configuration: manifests/
+                    configuration: 'manifests/full.yaml'
