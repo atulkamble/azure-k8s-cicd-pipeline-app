@@ -1,3 +1,4 @@
+---
 # Backend Deployment
 apiVersion: apps/v1
 kind: Deployment
@@ -20,6 +21,8 @@ spec:
           image: atulkamble.azurecr.io/backend:latest
           ports:
             - containerPort: 5000
+      imagePullSecrets:
+        - name: acr-secret
 
 ---
 # Backend Service (ClusterIP)
@@ -58,6 +61,8 @@ spec:
           image: atulkamble.azurecr.io/frontend:latest
           ports:
             - containerPort: 3000
+      imagePullSecrets:
+        - name: acr-secret
 
 ---
 # Frontend Service (LoadBalancer)
