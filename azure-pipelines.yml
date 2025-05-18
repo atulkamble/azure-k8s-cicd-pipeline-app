@@ -44,7 +44,7 @@ stages:
     jobs:
       - deployment: DeployToAKS
         displayName: Deploy to AKS cluster
-        environment: aks
+        # environment: aks 
         strategy:
           runOnce:
             deploy:
