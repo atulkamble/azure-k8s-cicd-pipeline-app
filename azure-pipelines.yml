@@ -4,7 +4,7 @@ trigger:
       - main
 
 variables:
-  azureSubscription: 'Pay as you go'  # 🔁 Replace with your Azure RM service connection
+  azureSubscription: 'azure-aks-connection'  # 🔁 Replace with your Azure RM service connection
   acrLoginServer: 'atulkamble.azurecr.io'
   acrUsername: 'atulkamblerepo'       # 🔁 Optional if using Azure service connection
   acrPassword: '$(acrPassword)'       # Set as secret variable in pipeline settings
