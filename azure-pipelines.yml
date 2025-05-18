@@ -7,7 +7,7 @@ variables:
   azureSubscription: 'azure-aks-connection'        # Your Azure RM service connection name
   acrLoginServer: 'atulkamble.azurecr.io'
   acrUsername: 'atulkamble'
-  acrPassword: '$(acrPassword)'                    # Set this secret in Azure DevOps Pipeline Variables
+  acrPassword: 'N0gZFqEeqZzXS/N7YEv+McXRJVg8U6MQd/EkKSKjwf+ACRBBa0UU'                    # Set this secret in Azure DevOps Pipeline Variables
   kubernetesCluster: 'aks-cluster'
   resourceGroup: 'aks-resource-group'
 
