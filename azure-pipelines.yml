@@ -4,13 +4,10 @@ trigger:
       - main
 
 variables:
-  azureSubscription: 'azure-aks-connection'        # Your Azure RM service connection name
-  acrLoginServer: 'atulkamble.azurecr.io'
-  acrUsername: 'atulkamble'
-  acrPassword: 'N0gZFqEeqZzXS/N7YEv+McXRJVg8U6MQd/EkKSKjwf+ACRBBa0UU'                    # Set this secret in Azure DevOps Pipeline Variables
+  azureSubscription: 'azure-aks-connection'        # Azure Resource Manager service connection
+  acrServiceConnection: 'atulkamble-acr'           # ✅ Docker Registry service connection name
   kubernetesCluster: 'aks-cluster'
   resourceGroup: 'aks-resource-group'
-  acrServiceConnection: 'atulkamble-acr'
 
 stages:
   - stage: Build
@@ -22,20 +19,12 @@ stages:
           vmImage: 'ubuntu-latest'
         steps:
           - task: Docker@2
-            displayName: Login to ACR
-            inputs:
-              command: login
-              containerRegistry: '$(acrLoginServer)'
-              username: '$(acrUsername)'
-              password: '$(acrPassword)'
-
-          - task: Docker@2
             displayName: Build and Push Frontend Image
             inputs:
               command: buildAndPush
+              containerRegistry: '$(acrServiceConnection)'   # ✅ Service connection name
               repository: 'frontend'
               dockerfile: 'frontend/Dockerfile'
-              containerRegistry: '$(acrLoginServer)'
               tags: 'latest'
               buildContext: 'frontend'
 
@@ -43,9 +32,9 @@ stages:
             displayName: Build and Push Backend Image
             inputs:
               command: buildAndPush
+              containerRegistry: '$(acrServiceConnection)'   # ✅ Service connection name
               repository: 'backend'
               dockerfile: 'backend/Dockerfile'
-              containerRegistry: '$(acrLoginServer)'
               tags: 'latest'
               buildContext: 'backend'
 
