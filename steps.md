@@ -327,4 +327,12 @@ init, plan, apply >> destroy
 
 run pipeline from azure devops server with service connectors/variables 
 ```
+// project termination 
+```
+terraform destroy 
+```
+Delete Pipeline
+Delete Project 
+
+
 
