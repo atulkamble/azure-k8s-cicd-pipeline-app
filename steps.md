@@ -286,3 +286,45 @@ docker login -u token -p 7WuV/VTNEEr5Of6SX3vjFblueU7KvDxeqZ0Ql3VWBa+ACRClz8Ay at
 kubectl delete pods -l app=frontend
 kubectl delete pods -l app=backend
 ```
+// create secrets 
+
+```
+kubectl create secret docker-registry acr-secret \
+  --docker-server=atulkamble.azurecr.io \
+  --docker-username=atulkamble \
+  --docker-password='N0gZFqEeqZzXS/N7YEv+McXRJVg8U6MQd/EkKSKjwf+ACRBBa0UU' \
+  --docker-email=atul_kamble@hotmail.com
+```
+// kubernetes and troubleshooting part 
+```
+az login
+az account set --subscription "cc57cd42-dede-4674-b810-a0fbde41504a"  # Use your subscription ID
+az aks get-credentials --resource-group aks-resource-group --name aks-cluster --overwrite-existing
+
+
+Azure DevOps > Project Settings > Service connections
+azure-aks-connection
+
+Pipelines > Edit pipeline > Variables tab
+
+
+az login
+az aks get-credentials --resource-group aks-resource-group --name aks-cluster --overwrite-existing
+kubectl get nodes
+
+kubectl config current-context
+kubectl get nodes
+
+az aks update \
+  --name aks-cluster \
+  --resource-group aks-resource-group \
+  --attach-acr atulkamble
+```
+// how to run project 
+```
+deploy kubernetes cluster via terraform
+init, plan, apply >> destroy
+
+run pipeline from azure devops server with service connectors/variables 
+```
+
